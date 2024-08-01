@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "388146265298",
+    "project_id": "booking-res-1ae46",
+    "storage_bucket": "booking-res-1ae46.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388146265298:android:a7d44d4bc4f3da5dae010b",
+        "android_client_info": {
+          "package_name": "com.example.booking_res"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTzdY9SNBTLcaq7nRGXDBdbVbQd40qjf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
