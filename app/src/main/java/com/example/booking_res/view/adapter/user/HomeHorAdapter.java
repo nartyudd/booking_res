@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.booking_res.R;
 import com.example.booking_res.model.HomeHorModel;
 import com.example.booking_res.model.HomeVerModel;
+import com.example.booking_res.view.activity.UserActivity;
+import com.example.booking_res.view.fragment.user.ChooseTableFragment;
 
 import java.util.ArrayList;
 
@@ -59,7 +61,6 @@ public class HomeHorAdapter extends RecyclerView.Adapter<HomeHorAdapter.ViewHold
             public void onClick(View v) {
                 row_index = position;
                 notifyDataSetChanged();
-
                 if (position == 0) {
 
                     ArrayList<HomeVerModel> homeVerModels = new ArrayList<>();
