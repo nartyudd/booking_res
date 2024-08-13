@@ -19,7 +19,10 @@
             android:name=".view.activity.AdminActivity"
             android:exported="false"
             android:label="@string/title_activity_admin"
-            android:theme="@style/Theme.Booking_res" />
+            android:theme="@style/Theme.Booking_res">
+
+
+        </activity>
         <activity
             android:name=".view.activity.MainActivity"
             android:exported="true">
@@ -28,6 +31,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.activity.ResAdminActivity"
+            android:exported="false"
+            >
         </activity>
     </application>
 

@@ -4,11 +4,13 @@ public class User {
     private String userId;
     private String role;
     private boolean exists;
+    private boolean active;
 
-    public User(String userId, String role, boolean exists) {
+    public User(String userId, String role, boolean exists, boolean active) {
         this.setUserId(userId);
         this.setRole(role);
         this.setExists(exists);
+        this.setActive(active);
     }
 
     public User(String userId, String role) {
@@ -39,5 +41,14 @@ public class User {
 
     public void setExists(boolean exists) {
         this.exists = exists;
+    }
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

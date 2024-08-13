@@ -1,19 +1,26 @@
 package com.example.booking_res.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.booking_res.R;
-import com.example.booking_res.view.activity.MainActivity;
+import com.example.booking_res.Helper.FragmentManagerHelper;
+import com.example.booking_res.repo.BaseRepo;
+import com.example.booking_res.repo.SignInRepo;
+import com.example.booking_res.view.activity.AdminActivity;
+import com.example.booking_res.view.activity.ResAdminActivity;
+import com.example.booking_res.view.activity.UserActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,8 +33,8 @@ public class MainFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private Button btn_sign_in, btn_sign_up;
-
+    private Button btn_sign_in;
+    private TextView btn_sign_up;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -50,6 +57,9 @@ public class MainFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private SignInRepo signInRepo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,26 +72,52 @@ public class MainFragment extends Fragment {
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Dang nhap", Toast.LENGTH_SHORT).show();
-                replaceFragment(SignInFragment.newInstance());
+                FragmentManagerHelper.getInstance().replaceFragment(SignInFragment.newInstance(), true);
             }
         });
 
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Dang ky", Toast.LENGTH_SHORT).show();
-                replaceFragment(SignUpFragment.newInstance());
+                FragmentManagerHelper.getInstance().replaceFragment(SignUpFragment.newInstance(), true);
             }
         });
+        init();
         return view;
     }
 
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainer, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+    private void init(){
+        mAuth = FirebaseAuth.getInstance();
+        signInRepo = new SignInRepo();
+        CheckUserLogin();
+    }
+
+    private void CheckUserLogin(){
+        mUser = mAuth.getCurrentUser();
+        if(mUser != null){
+            CheckUserRole(mUser.getUid());
+        }
+    }
+
+    private void CheckUserRole(String uid){
+        signInRepo.getRole(uid, new BaseRepo.OnDataFetchedListener<String>() {
+            @Override
+            public void onDataFetched(String role) {
+                switch (role) {
+                    case "user":
+                        startActivity(new Intent(getActivity(), UserActivity.class));
+                        getActivity().finish();
+                        break;
+                    case "admin":
+                        startActivity(new Intent(getActivity(), AdminActivity.class));
+                        getActivity().finish();
+                        break;
+                    case "res":
+                        startActivity(new Intent(getActivity(), ResAdminActivity.class));
+                        getActivity().finish();
+                        break;
+                }
+            }
+        });
     }
 }

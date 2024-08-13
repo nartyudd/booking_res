@@ -3,23 +3,17 @@ package com.example.booking_res.model;
 public class Table {
     private String uuid;
     private String name;
-    private String categoryId;
-    private String regionId;
     private boolean status;
 
-    public Table(String uuid, String name, String categoryId, String regionId, boolean status){
+    public Table(String uuid, String name, boolean status){
         this.setUuid(uuid);
         this.setName(name);
-        this.setCategoryId(categoryId);
-        this.setRegionId(regionId);
         this.setStatus(status);
     }
 
-    public Table(String uuid, String name, String categoryId, String regionId){
+    public Table(String uuid, String name){
         this.setUuid(uuid);
         this.setName(name);
-        this.setCategoryId(categoryId);
-        this.setRegionId(regionId);
         this.setStatus(false);
     }
 
@@ -41,22 +35,6 @@ public class Table {
         this.name = name;
     }
 
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getRegionId() {
-        return regionId;
-    }
-
-    public void setRegionId(String regionId) {
-        this.regionId = regionId;
-    }
-
     public boolean isStatus() {
         return status;
     }
@@ -64,4 +42,5 @@ public class Table {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.booking_res.controller;
+package com.example.booking_res.Helper;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -56,6 +56,14 @@ public class FragmentManagerHelper {
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             transaction.remove(fragment);
             transaction.commit();
+        } else {
+            throw new IllegalStateException("FragmentManagerHelper not initialized. Call init() first.");
+        }
+    }
+
+    public Fragment getCurrentFragment() {
+        if (fragmentManager != null) {
+            return fragmentManager.findFragmentById(containerId);
         } else {
             throw new IllegalStateException("FragmentManagerHelper not initialized. Call init() first.");
         }

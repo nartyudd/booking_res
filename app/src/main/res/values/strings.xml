@@ -5,4 +5,16 @@
     <string name="title_activity_admin">AdminActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_admin">Trang Admin</string>
+    <string name="nav_title">Booking Res</string>
+    <string name="admin_user">Quản lý người dùng</string>
+    <string name="admin_restaurant">Quản lý nhà hàng</string>
+    <string name="admin_region">Quản lý khu vực</string>
+    <string name="admin_table">Quản lý bàn ăn</string>
+    <string name="admin_bill">Quản lý đơn</string>
+    <string name="admin_logout">Đăng xuất</string>
+    <string name="list">Danh sách</string>
+    <string name="update">Thêm</string>
+    <string name="lb_res_admin">Nhà hàng</string>
+    <string name="lb_user">Nguời dùng</string>
 </resources>
