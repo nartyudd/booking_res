@@ -87,7 +87,7 @@ public class CreateRegionFragment extends Fragment {
             header.setText("Sửa khu vực");
             labelname.setText("Tên khu vực: " + region.getName());
             txtNameRegion.setHint("Nhập tên cần sửa....");
-//            btnAddRegion.setText("Cập nhật");
+            btnAddRegion.setText("Sửa");
         }
 
         regionRepo = new RegionRepo();
@@ -104,12 +104,10 @@ public class CreateRegionFragment extends Fragment {
             Toast.makeText(getActivity(), "Bạn phải điền đầy đủ các trường. !", Toast.LENGTH_SHORT).show();
         } else {
             if (region != null) {
-                // Cập nhật khu vực hiện tại
                 region.setName(_nameRegion.toUpperCase(Locale.ROOT));
                 regionRepo.UpdateRegion(region.getUuid(), region.getName().toUpperCase(Locale.ROOT), Regex.getNumber(region.getName()));
                 Toast.makeText(getActivity(), "Bạn đã cập nhật thành công. !", Toast.LENGTH_SHORT).show();
             } else {
-                // Thêm khu vực mới
                 regionRepo.AddRegion(new Region(GenID.genUUID(), _nameRegion.toUpperCase(Locale.ROOT), res_id, Regex.getNumber(_nameRegion)));
                 Toast.makeText(getActivity(), "Bạn đã thêm thành công. !", Toast.LENGTH_SHORT).show();
             }

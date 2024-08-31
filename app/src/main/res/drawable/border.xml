@@ -3,6 +3,6 @@
     <solid android:color="@android:color/transparent"/> <!-- Background color -->
     <stroke
         android:width="2dp"
-        android:color="@android:color/white"/> <!-- Border color and width -->
+        android:color="@android:color/holo_green_light"/> <!-- Border color and width -->
     <corners android:radius="4dp"/> <!-- Optional: to round the corners -->
 </shape>

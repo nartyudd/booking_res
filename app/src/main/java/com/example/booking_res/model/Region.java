@@ -29,6 +29,7 @@ public class Region implements Parcelable {
         this.setPriority(priority);
         this.setTables(tables);
     }
+
     public Region(){}
 
     public String getUuid() {
@@ -63,7 +64,13 @@ public class Region implements Parcelable {
         this.priority = priority;
     }
 
+    public List<Table> getTables() {
+        return tables;
+    }
 
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
+    }
 
     // implement parceLable
     @Override
@@ -95,12 +102,4 @@ public class Region implements Parcelable {
             return new Region[size];
         }
     };
-
-    public List<Table> getTables() {
-        return tables;
-    }
-
-    public void setTables(List<Table> tables) {
-        this.tables = tables;
-    }
 }

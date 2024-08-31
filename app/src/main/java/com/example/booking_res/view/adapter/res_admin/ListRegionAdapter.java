@@ -71,7 +71,7 @@ public class ListRegionAdapter extends RecyclerView.Adapter<ListRegionAdapter.Li
         return _regions.size();
     }
 
-    public class ListRegionViewHolder extends RecyclerView.ViewHolder {
+    public static class ListRegionViewHolder extends RecyclerView.ViewHolder {
 
         private ConstraintLayout cardRegion;
         private Button btnDelete, btnUpdate;

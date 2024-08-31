@@ -12,9 +12,14 @@
     <string name="admin_region">Quản lý khu vực</string>
     <string name="admin_table">Quản lý bàn ăn</string>
     <string name="admin_bill">Quản lý đơn</string>
+    <string name="admin_profile">Thông tin</string>
+
     <string name="admin_logout">Đăng xuất</string>
     <string name="list">Danh sách</string>
     <string name="update">Thêm</string>
     <string name="lb_res_admin">Nhà hàng</string>
-    <string name="lb_user">Nguời dùng</string>
+    <string name="lb_user">nguời dùng</string>
+    <string name="lb_admin">nhà hàng</string>
+    <string name="lb_active">active</string>
+    <string name="lb_non_active">non-active</string>
 </resources>

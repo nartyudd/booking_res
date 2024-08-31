@@ -9,6 +9,7 @@ public class Booking {
     private boolean status;
     private String time;
     private Date date;
+
     public Booking(String userId, String tableId, String time, Date date, boolean status){
         this.setUserId(userId);
         this.setTableId(tableId);

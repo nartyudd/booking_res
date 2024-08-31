@@ -27,6 +27,10 @@
                 android:icon="@drawable/bill_icon"
                 android:title="@string/admin_bill" />
 
+            <item
+                android:id="@+id/navProfileAdmin"
+                android:icon="@drawable/profile_icon"
+                android:title="@string/admin_profile" />
 
             <item
                 android:id="@+id/navLogoutAdmin"

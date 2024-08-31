@@ -3,9 +3,11 @@ package com.example.booking_res.repo.res_admin;
 import android.util.Log;
 
 import com.example.booking_res.model.Region;
+import com.example.booking_res.model.Table;
 import com.example.booking_res.repo.BaseRepo;
 import com.example.booking_res.viewmodels.Item;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -61,6 +63,8 @@ public class RegionRepo extends BaseRepo {
             }
         });
     }
+
+
 
     public void UpdateRegion(String uuid, String name, int priority){
           Query query = coRef.whereEqualTo("uuid", uuid);

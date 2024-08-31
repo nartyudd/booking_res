@@ -2,19 +2,18 @@ package com.example.booking_res.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import com.example.booking_res.Helper.FragmentType;
 import com.example.booking_res.R;
 import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.model.Region;
 import com.example.booking_res.model.Restaurant;
+import com.example.booking_res.model.Table;
 import com.example.booking_res.repo.BaseRepo;
 import com.example.booking_res.repo.admin.RestaurantRepo;
 import com.example.booking_res.view.fragment.res_admin.CreateRegionFragment;
@@ -22,6 +21,8 @@ import com.example.booking_res.view.fragment.res_admin.CreateRestaurantFragment;
 import com.example.booking_res.view.fragment.res_admin.CreateTableFragment;
 import com.example.booking_res.view.fragment.res_admin.ListRegionFragment;
 import com.example.booking_res.view.fragment.res_admin.ListTableFragment;
+import com.example.booking_res.view.fragment.res_admin.ProfileRestaurantFragment;
+import com.example.booking_res.view.fragment.res_admin.UpdateProfileFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.navigation.NavigationView;
@@ -29,7 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ResAdminActivity extends AppCompatActivity implements ListRegionFragment.OnRegionUpdateListener {
+public class ResAdminActivity extends AppCompatActivity implements ListRegionFragment.OnRegionUpdateListener, ListTableFragment.OnTableUpdateListener {
     private String res_id;
 
     private MaterialToolbar topAppBar;
@@ -45,9 +46,10 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
     private static final int NAV_BILL_ADMIN = R.id.navBillAdmin;
     private static final int NAV_LOGOUT_ADMIN = R.id.navLogoutAdmin;
     private static final int NAV_REIOGN_ADMIN = R.id.navRegionAdmin;
+    private static final int NAV_PROFILE_ADMIN = R.id.navProfileAdmin;
 
+    private int tabIndex;
 
-    private static int tabIndex;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +60,21 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
 
     @Override
     public void onRegionUpdate(Region region) {
+        Log.i("RES_ADMIN_ACTIVITY", "onRegionUpdate called with region: " + region.getName() + "tabindex : " + tabIndex);
+        tabIndex = 1;
         tab_layout.getTabAt(1).select();
         FragmentManagerHelper.getInstance().replaceFragment(CreateRegionFragment.newInstance(region), true);
+        handleTab_layout();
+    }
+
+
+    @Override
+    public void onTableUpdate(String region_id, Table table) {
+        Log.i("RES_ADMIN_ACTIVITY", "onTableUpdate called with table: " + table.getName() + "tabindex : " + tabIndex);
+        tabIndex = 2;
+        tab_layout.getTabAt(1).select();
+        FragmentManagerHelper.getInstance().replaceFragment(CreateTableFragment.newInstance(region_id, table), true);
+        handleTab_layout();
     }
 
     private void init(){
@@ -94,6 +109,7 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
             public void onDataFetched(Restaurant res) {
                 if(res != null) {
                     res_id = res.getUuid();
+                    tabIndex = 1;
                     handleRegionAdminFragment();
                 }
                 else{
@@ -116,15 +132,21 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
                         handleRegionAdminFragment();
                     } else if (tabIndex == 2) {
                         handleTableAdminFragment();
-                    } else if (tabIndex == 3) {
+                    } else if(tabIndex == 3) {
+                        handleProfileAdminFragment();
+                    }
+                    else if (tabIndex == 4) {
                         //                return new ListBillFragment();
                     }
                 } else if (tab.getPosition() == 1) { // Add tab
                     if (tabIndex == 1) {
-                        FragmentManagerHelper.getInstance().replaceFragment(CreateRegionFragment.newInstance(res_id), true);
+                        handleCreateRegion();
                     } else if (tabIndex == 2) {
-                        FragmentManagerHelper.getInstance().replaceFragment(CreateTableFragment.newInstance(res_id), true);
-                    } else if (tabIndex == 3)  {
+                        handleCreateTable();
+                    } else if(tabIndex == 3) {
+                        handleUpdateProfile();
+                    } else if (tabIndex == 4)  {
+//                        tabIndex = 3;
 //                        navigateToFragment(FragmentType.CREATE_BILL);
                     }
                 }
@@ -142,20 +164,73 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
         });
     }
 
-    private void handleTableAdminFragment() {
-        topAppBar.setTitle( "Quản Lý Bàn Ăn");
-        FragmentManagerHelper.getInstance().replaceFragment(ListTableFragment.newInstance("11", "11"), false);
+    private void handleCreateRegion(){
+        Log.i("RES_ADMIN_ACTIVITY",  " handleCreateRegion : " + tabIndex);
+        tabIndex = 1;
+        FragmentManagerHelper.getInstance().replaceFragment(CreateRegionFragment.newInstance(res_id), true);
+        tab_layout.getTabAt(1).select();
     }
 
-    private void handleBillAdminFragment() {
-        Toast.makeText(this, "Bill Admin", Toast.LENGTH_SHORT).show();
-
+    private void handleCreateTable(){
+        Log.i("RES_ADMIN_ACTIVITY",  " handleCreateTable : " + tabIndex);
+        tabIndex = 2;
+        FragmentManagerHelper.getInstance().replaceFragment(CreateTableFragment.newInstance(res_id), true);
+        tab_layout.getTabAt(1).select();
     }
+
+    private void handleUpdateProfile(){
+        tabIndex = 3;
+        FragmentManagerHelper.getInstance().replaceFragment(UpdateProfileFragment.newInstance(res_id, mUser.getUid()), false);
+        tab_layout.getTabAt(1).select();
+    }
+
 
     private void handleRegionAdminFragment(){
+        Log.i("RES_ADMIN_ACTIVITY",  " handleRegionAdminFragment : " + tabIndex);
+        tabIndex = 1;
         topAppBar.setTitle( "Quản Lý Khu Vực");
         FragmentManagerHelper.getInstance().replaceFragment(ListRegionFragment.newInstance(res_id), false);
+        tab_layout.getTabAt(0).select();
+        handleTab_layout();
     }
+
+    private void handleTableAdminFragment() {
+        topAppBar.setTitle( "Quản Lý Bàn Ăn");
+        tabIndex = 2;
+        Log.i("RES_ADMIN_ACTIVITY",  " handleTableAdminFragment : " + tabIndex);
+        FragmentManagerHelper.getInstance().replaceFragment(ListTableFragment.newInstance(res_id), false);
+        tab_layout.getTabAt(0).select();
+        handleTab_layout();
+    }
+
+
+    private void handleProfileAdminFragment(){
+        tabIndex = 3;
+        topAppBar.setTitle("Quản lý Thông tin cá nhân");
+        FragmentManagerHelper.getInstance().replaceFragment(ProfileRestaurantFragment.newInstance(mUser.getUid()), false);
+        tab_layout.getTabAt(0).select();
+        handleTab_layout();
+    }
+
+
+    private void handleBillAdminFragment() {
+        Log.i("RES_ADMIN_ACTIVITY",  " handleBillAdminFragment :  " + tabIndex);
+        tabIndex = 4;
+        Toast.makeText(this, "Bill Admin", Toast.LENGTH_SHORT).show();
+        handleTab_layout();
+//        tab_layout.getTabAt(0).select();
+    }
+
+    private void handleTab_layout(){
+        if(tabIndex == 3){
+            tab_layout.getTabAt(0).setText("Thông tin nhà hàng");
+            tab_layout.getTabAt(1).setText("Sửa thông tin");
+        } else {
+            tab_layout.getTabAt(0).setText("Danh sách");
+            tab_layout.getTabAt(1).setText("Thêm / Sửa");
+        }
+    }
+
 
     public void setListenerItemNavigation()
     {
@@ -166,14 +241,13 @@ public class ResAdminActivity extends AppCompatActivity implements ListRegionFra
 
                if(itemId == NAV_REIOGN_ADMIN) {
                     handleRegionAdminFragment();
-                    tabIndex = 1;
                 } else if(itemId == NAV_TABLE_ADMIN) {
                    handleTableAdminFragment();
-                   tabIndex = 2;
                } else if (itemId == NAV_BILL_ADMIN){
                     handleBillAdminFragment();
-                    tabIndex = 3;
-                } else if (itemId == NAV_LOGOUT_ADMIN) {
+                } else if(itemId == NAV_PROFILE_ADMIN) {
+                   handleProfileAdminFragment();
+               } else if (itemId == NAV_LOGOUT_ADMIN) {
                     handleNavLogout();
                 } else {
                     setCLoseNavigtion();

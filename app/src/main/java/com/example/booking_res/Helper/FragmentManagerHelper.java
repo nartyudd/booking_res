@@ -38,6 +38,7 @@ public class FragmentManagerHelper {
         }
     }
 
+
     public void addFragment(Fragment fragment, boolean addToBackStack) {
         if (fragmentManager != null) {
             FragmentTransaction transaction = fragmentManager.beginTransaction();

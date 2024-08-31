@@ -58,7 +58,7 @@
                     android:id="@+id/btnAddRegion"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:text="Update" />
+                    android:text="Thêm" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -145,6 +145,7 @@ public class CreateRestaurantFragment extends Fragment {
     private void AddRestaurant() {
         String name = editName.getText().toString().trim();
         String address = editAddress.getText().toString().trim();
+
         float rating = ratingBarRestaurant.getRating();
 
         if(ValidateAddRestaurant(imageUri, name, address))

@@ -60,25 +60,25 @@ public class AdminActivity extends AppCompatActivity {
         setListenerItemNavigation();
     }
 
-    private void handleListFragment(){
-        Fragment current = FragmentManagerHelper.getInstance().getCurrentFragment();
-
-        if(current instanceof CreateRestaurantFragment){
-            FragmentManagerHelper.getInstance().replaceFragment(ListRestaurantFragment.newInstance(), false);
-        } else if (current instanceof CreateUserFragment) {
-            FragmentManagerHelper.getInstance().replaceFragment(ListUserFragment.newInstance(), false);
-        }
-    }
-
-    private void hanndleCreateFragment(){
-        Fragment current = FragmentManagerHelper.getInstance().getCurrentFragment();
-
-        if(current instanceof ListRestaurantFragment){
-            FragmentManagerHelper.getInstance().replaceFragment(CreateRestaurantFragment.newInstance("234"), false);
-        } else if(current instanceof ListUserFragment){
-            FragmentManagerHelper.getInstance().replaceFragment(CreateUserFragment.newInstance(), false);
-        }
-    }
+//    private void handleListFragment(){
+//        Fragment current = FragmentManagerHelper.getInstance().getCurrentFragment();
+//
+//        if(current instanceof CreateRestaurantFragment){
+//            FragmentManagerHelper.getInstance().replaceFragment(ListRestaurantFragment.newInstance(), false);
+//        } else if (current instanceof CreateUserFragment) {
+//            FragmentManagerHelper.getInstance().replaceFragment(ListUserFragment.newInstance(), false);
+//        }
+//    }
+//
+//    private void hanndleCreateFragment(){
+//        Fragment current = FragmentManagerHelper.getInstance().getCurrentFragment();
+//
+//        if(current instanceof ListRestaurantFragment){
+//            FragmentManagerHelper.getInstance().replaceFragment(CreateRestaurantFragment.newInstance("234"), false);
+//        } else if(current instanceof ListUserFragment){
+//            FragmentManagerHelper.getInstance().replaceFragment(CreateUserFragment.newInstance(), false);
+//        }
+//    }
 
 
     private void setFragmentInit(){
