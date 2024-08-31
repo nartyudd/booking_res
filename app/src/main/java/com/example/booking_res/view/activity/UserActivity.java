@@ -1,36 +1,63 @@
 package com.example.booking_res.view.activity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.booking_res.R;
 import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.view.fragment.user.HomeFragment;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.booking_res.view.fragment.user.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
 public class UserActivity extends AppCompatActivity {
 
-    private Button logout;
+    private static final int NAV_RESTAURANT = R.id.navRes;
+    private static final int NAV_NOTIFICATE = R.id.navNotification;
+    private static final int NAV_PROFILE = R.id.navProfile;
+    private BottomNavigationView bottomNavView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
-        logout = findViewById(R.id.logout);
+        init();
+    }
 
-        logout.setOnClickListener(new View.OnClickListener() {
+    private void init(){
+        bottomNavView = findViewById(R.id.bottomNavView);
+
+        initFragment();
+
+        setListenerItemNavigation(bottomNavView);
+    }
+
+    private void setListenerItemNavigation(BottomNavigationView bottomNavView){
+        bottomNavView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                if (itemId == NAV_RESTAURANT) {
+                    initFragment();
+                } else if (itemId == NAV_NOTIFICATE) {
+//                    loadFragment(new ChooseTableFragment(), false);
+
+                } else if (itemId == NAV_PROFILE) {
+                    FragmentManagerHelper.getInstance().replaceFragment(ProfileFragment.newInstance("ss", "1ss"), false);
+                }
+                return true;
             }
         });
-        FragmentManagerHelper.getInstance().init(getSupportFragmentManager(), R.id.frameLayout);
-        FragmentManagerHelper.getInstance().replaceFragment(new HomeFragment(), false);
-
     }
+
+    private void initFragment(){
+        FragmentManagerHelper.getInstance().init(getSupportFragmentManager(), R.id.frameLayout);
+        FragmentManagerHelper.getInstance().addFragment(new HomeFragment(), false);
+    }
+
 
 //    private void hanldeReplaceFragment(Fragment frag){
 //        FragmentManagerHelper.getInstance().replaceFragment(frag, false);
