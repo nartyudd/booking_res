@@ -9,6 +9,7 @@
     <string name="nav_title">Booking Res</string>
     <string name="admin_user">Quản lý người dùng</string>
     <string name="admin_restaurant">Quản lý nhà hàng</string>
+    <string name="admin_category">Quản lý loại nhà hàng</string>
     <string name="admin_region">Quản lý khu vực</string>
     <string name="admin_table">Quản lý bàn ăn</string>
     <string name="admin_bill">Quản lý đơn</string>

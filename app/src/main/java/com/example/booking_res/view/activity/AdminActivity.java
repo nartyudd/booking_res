@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
+import com.example.booking_res.view.fragment.admin.ListCategoryFragment;
 import com.example.booking_res.view.fragment.res_admin.CreateRestaurantFragment;
 import com.example.booking_res.view.fragment.admin.CreateUserFragment;
 import com.example.booking_res.view.fragment.admin.ListRestaurantFragment;
@@ -29,6 +30,7 @@ public class AdminActivity extends AppCompatActivity {
     private static final int NAV_USER_ADMIN = R.id.navUserAdmin;
     private static final int NAV_RESTAURANT_ADMIN = R.id.navRestaurantAdmin;
     private static final int NAV_LOGOUT_ADMIN = R.id.navLogoutAdmin;
+    private static final int NAV_CATEGORY_ADMIN = R.id.navCategoryAdmin;
     private static final String TAG = "AdminActivity";
 
     @Override
@@ -98,6 +100,12 @@ public class AdminActivity extends AppCompatActivity {
         FragmentManagerHelper.getInstance().replaceFragment(ListRestaurantFragment.newInstance(), false);
     }
 
+    private void handleCategoryAdminFragment() {
+        topAppBar.setTitle("Quản Lý Loại Nhà Hàng");
+
+        FragmentManagerHelper.getInstance().replaceFragment(ListCategoryFragment.newInstance(), false);
+    }
+
     public void setListenerItemNavigation()
     {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -109,6 +117,8 @@ public class AdminActivity extends AppCompatActivity {
                     handleUserAdminFragment();
                 } else if(itemId == NAV_RESTAURANT_ADMIN) {
                     handleRestaurantAdminFragment();
+                } else if(itemId == NAV_CATEGORY_ADMIN) {
+                    handleCategoryAdminFragment();
                 } else if (itemId == NAV_LOGOUT_ADMIN) {
                     handleNavLogout();
                 } else {

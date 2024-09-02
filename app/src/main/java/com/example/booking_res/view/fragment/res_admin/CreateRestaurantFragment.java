@@ -17,18 +17,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
 import com.example.booking_res.model.Restaurant;
+import com.example.booking_res.repo.BaseRepo;
+import com.example.booking_res.repo.admin.CategoryRepo;
 import com.example.booking_res.repo.admin.RestaurantRepo;
 import com.example.booking_res.utilities.GenID;
+import com.example.booking_res.viewmodels.Item;
+import com.example.booking_res.viewmodels.ItemCate;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -36,6 +43,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,6 +77,11 @@ public class CreateRestaurantFragment extends Fragment {
     private Button btnAddRestaurant;
     private RatingBar ratingBarRestaurant;
 
+    private List<ItemCate> _itemCates;
+    private ArrayAdapter<ItemCate> adapter;
+    private Spinner spinner;
+    private String cate_id;
+    private CategoryRepo categoryRepo;
 
     public CreateRestaurantFragment() {
         // Required empty public constructor
@@ -123,8 +138,11 @@ public class CreateRestaurantFragment extends Fragment {
         editAddress = view.findViewById(R.id.editAddress);
         ratingBarRestaurant = view.findViewById(R.id.ratingBarRestaurant);
         storageReference = FirebaseStorage.getInstance().getReference();
-
+        spinner = view.findViewById(R.id.spinner);
+        _itemCates = new ArrayList<>();
+        categoryRepo = new CategoryRepo();
         resRepo = new RestaurantRepo();
+
         uploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,6 +156,38 @@ public class CreateRestaurantFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AddRestaurant();
+            }
+        });
+
+
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, _itemCates);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ItemCate selectedItem = (ItemCate) adapterView.getItemAtPosition(i);
+                cate_id = selectedItem.getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        loadData();
+    }
+
+    private void loadData(){
+        categoryRepo.GetAllForRes(new BaseRepo.OnDataFetchedListener<List<ItemCate>>() {
+            @Override
+            public void onDataFetched(List<ItemCate> itemCates) {
+                _itemCates.addAll(itemCates);
+
+                adapter.notifyDataSetChanged();
             }
         });
     }
@@ -179,7 +229,7 @@ public class CreateRestaurantFragment extends Fragment {
                     @Override
                     public void onSuccess(Uri uri) {
                         String imageUrl = uri.toString();
-                        Restaurant res = new Restaurant(GenID.genUUID(), name, address, rating, imageUrl, userId);
+                        Restaurant res = new Restaurant(GenID.genUUID(), name, address, rating, imageUrl, userId, cate_id);
                         resRepo.Add(res);
                         Toast.makeText(getActivity(), "Bạn đã thêm thành công.!", Toast.LENGTH_SHORT).show();
                         getActivity().recreate();

@@ -23,6 +23,12 @@
                 android:title="@string/admin_restaurant"/>
 
             <item
+                android:id="@+id/navCategoryAdmin"
+                android:icon="@drawable/category_icon"
+                app:iconTint="@color/black"
+                android:title="@string/admin_category"/>
+
+            <item
                 android:id="@+id/navLogoutAdmin"
                 android:icon="@drawable/top_app_bar_logout"
                 android:title="@string/admin_logout"/>

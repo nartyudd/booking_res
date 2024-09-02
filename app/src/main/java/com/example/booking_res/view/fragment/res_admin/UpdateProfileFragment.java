@@ -75,7 +75,7 @@ public class UpdateProfileFragment extends Fragment {
     private Button uploadButtonImage, btnAddRestaurant;
     private Uri imageUri;
     private StorageReference storageReference;
-    private String _name, _address;
+    private String _name, _address, _cate_id;
     private LinearProgressIndicator progressIndicator;
 
     @Override
@@ -130,6 +130,7 @@ public class UpdateProfileFragment extends Fragment {
                 _name = res.getName();
                 _address = res.getAddress();
                 oldImageUrl = res.getUriImage();
+                _cate_id = res.getCate_id();
 
                 Glide.with(view.getContext())
                         .load(res.getUriImage())
@@ -211,7 +212,7 @@ public class UpdateProfileFragment extends Fragment {
     }
 
     private void saveRestaurant(String imageUrl, String name, String address, float rating) {
-        Restaurant updatedRestaurant = new Restaurant(res_id, name, address, rating, imageUrl, user_id);
+        Restaurant updatedRestaurant = new Restaurant(res_id, name, address, rating, imageUrl, user_id, _cate_id);
         restaurantRepo.Update(res_id, updatedRestaurant);
         Toast.makeText(getActivity(), "Restaurant updated successfully", Toast.LENGTH_SHORT).show();
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInFragment extends Fragment {
-
+    private String TAG = "SignInFragment_TAG";
     public SignInFragment() {
     }
 
@@ -96,6 +97,8 @@ public class SignInFragment extends Fragment {
         signInRepo.getRole(uid, new BaseRepo.OnDataFetchedListener<String>() {
             @Override
             public void onDataFetched(String role) {
+
+                Log.i(TAG, role);
                 switch (role) {
                     case "user":
                         startActivity(new Intent(getActivity(), UserActivity.class));
@@ -114,6 +117,8 @@ public class SignInFragment extends Fragment {
         });
     }
 
+
+
     private void SignIn(){
         String email = edt_email.getText().toString().trim();
         String password = edt_password.getText().toString().trim();
@@ -121,8 +126,7 @@ public class SignInFragment extends Fragment {
         if(email == "" || password == "" || email.isEmpty() || password.isEmpty())
         {
             Toast.makeText(getActivity(), "Bạn phải điền đủ các trường.!", Toast.LENGTH_SHORT).show();
-        } else
-        {
+        } else {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

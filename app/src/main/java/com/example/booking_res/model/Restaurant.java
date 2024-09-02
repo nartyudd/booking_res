@@ -1,11 +1,5 @@
 package com.example.booking_res.model;
 
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 public class Restaurant {
     private String uuid;
     private String name;
@@ -14,10 +8,11 @@ public class Restaurant {
     private String uriImage;
     private String userId;
     private boolean active;
+    private String cate_id;
 
     public Restaurant(){}
 
-    public Restaurant(String uuid, String name, String address, float rating, String uriImage, String userId){
+    public Restaurant(String uuid, String name, String address, float rating, String uriImage, String userId, String cate_id){
         this.setUuid(uuid);
         this.setName(name);
         this.setAddress(address);
@@ -25,6 +20,7 @@ public class Restaurant {
         this.setUriImage(uriImage);
         this.setUserId(userId);
         this.setActive(true);
+        this.setCate_id(cate_id);
     }
 
     public String getName() {
@@ -81,5 +77,13 @@ public class Restaurant {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getCate_id() {
+        return cate_id;
+    }
+
+    public void setCate_id(String cate_id) {
+        this.cate_id = cate_id;
     }
 }

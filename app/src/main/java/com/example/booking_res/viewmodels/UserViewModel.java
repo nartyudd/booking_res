@@ -67,4 +67,10 @@ public class UserViewModel {
     public void setExists(boolean exists) {
         this.exists = exists;
     }
+
+    @Override
+    public String toString() {
+        return getUserName() + " " + getRole()
+                + " " + getEmail();
+    }
 }
