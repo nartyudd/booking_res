@@ -4,12 +4,12 @@ public class Category {
 
     private String uuid;
     private String name;
-    private String idRestaurant;
+    private String uriImage;
 
-    public Category(String uuid, String name, String idRestaurant){
+    public Category(String uuid, String name, String uriImage){
         this.setUuid(uuid);
         this.setName(name);
-        this.setIdRestaurant(idRestaurant);
+        this.setUriImage(uriImage);
     }
 
     public Category(){}
@@ -30,11 +30,11 @@ public class Category {
         this.name = name;
     }
 
-    public String getIdRestaurant() {
-        return idRestaurant;
+    public String getUriImage() {
+        return uriImage;
     }
 
-    public void setIdRestaurant(String idRestaurant) {
-        this.idRestaurant = idRestaurant;
+    public void setUriImage(String uriImage) {
+        this.uriImage = uriImage;
     }
 }

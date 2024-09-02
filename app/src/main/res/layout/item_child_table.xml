@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="30dp"
+    android:layout_marginTop="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/border_green">
+
+    <TextView
+        android:id="@+id/titleChild"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:padding="10dp"
+        tools:ignore="MissingConstraints" />
++
+    <TextView
+        android:id="@+id/btnUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sửa"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:background="@color/yellow"
+        android:textColor="@color/white"
+        android:layout_gravity="end"
+        android:layout_marginTop="5dp"
+        />
+
+    <TextView
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xóa"
+        android:textSize="12sp"
+        android:padding="5dp"
+        android:background="@color/red"
+        android:textColor="@color/white"
+        android:layout_gravity="end"
+        android:layout_marginLeft="10dp"
+        />
+</LinearLayout>
