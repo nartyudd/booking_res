@@ -1,79 +1,137 @@
 package com.example.booking_res.view.fragment.user;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
-import com.example.booking_res.model.HomeHorModel;
-import com.example.booking_res.model.HomeVerModel;
-import com.example.booking_res.view.adapter.user.HomeHorAdapter;
-import com.example.booking_res.view.adapter.user.HomeVerAdapter;
-import com.example.booking_res.view.adapter.user.UpdateVerticalRec;
+import com.example.booking_res.model.Category;
+import com.example.booking_res.model.Restaurant;
+import com.example.booking_res.repo.BaseRepo;
+import com.example.booking_res.repo.user.CategoryRepo;
+import com.example.booking_res.repo.user.RestaurantRepo;
+import com.example.booking_res.view.adapter.user.CategoryAdapter;
+import com.example.booking_res.view.adapter.user.RestaurantAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class HomeFragment extends Fragment implements UpdateVerticalRec, HomeVerAdapter.OnItemClickListener {
+public class HomeFragment extends Fragment{
 
-    private RecyclerView homeHorizontalRec, homeVerticalRec;
-    private ArrayList<HomeHorModel> homeHorModelList;
-    private HomeHorAdapter homeHorAdapter;
-    private ArrayList<HomeVerModel> homeVerModelList;
-    private HomeVerAdapter homeVerAdapter;
+    private RecyclerView home_hor_rec, home_ver_rec;
+
+    private List<Category> _cate;
+    private CategoryRepo categoryRepo;
+    private CategoryAdapter categoryAdapter;
+
+    private List<Restaurant> _res;
+    private RestaurantRepo restaurantRepo;
+    private RestaurantAdapter restaurantAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        homeHorizontalRec = root.findViewById(R.id.home_hor_rec);
-        homeVerticalRec = root.findViewById(R.id.home_ver_rec);
+        init(view);
 
-        homeHorModelList = new ArrayList<>();
-        homeHorModelList.add(new HomeHorModel(R.drawable.lau, "Lẩu"));
-        homeHorModelList.add(new HomeHorModel(R.drawable.bbq, "Nướng"));
-        homeHorModelList.add(new HomeHorModel(R.drawable.buffet, "Buffet"));
-        homeHorModelList.add(new HomeHorModel(R.drawable.vegetable, "Chay"));
-
-        homeHorAdapter = new HomeHorAdapter(this, requireActivity(), homeHorModelList);
-        homeHorizontalRec.setAdapter(homeHorAdapter);
-        homeHorizontalRec.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        homeHorizontalRec.setHasFixedSize(true);
-        homeHorizontalRec.setNestedScrollingEnabled(false);
-
-        homeVerModelList = new ArrayList<>();
-        homeVerModelList.add(new HomeVerModel(R.drawable.bbq, "BBQ", "4.5", "200K - 300K"));
-        homeVerModelList.add(new HomeVerModel(R.drawable.bbq, "BBQ", "4.5", "200K - 300K"));
-        homeVerModelList.add(new HomeVerModel(R.drawable.bbq, "BBQ", "4.5", "200K - 300K"));
-
-        homeVerAdapter = new HomeVerAdapter(requireContext(), homeVerModelList, this);
-        homeVerticalRec.setAdapter(homeVerAdapter);
-        homeVerticalRec.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        homeVerticalRec.setHasFixedSize(true);
-        homeVerticalRec.setNestedScrollingEnabled(false);
-
-        return root;
+        return view;
     }
 
-    @Override
-    public void callBack(int position, ArrayList<HomeVerModel> list) {
-        homeVerAdapter.updateData(list);
+    private void init(View view){
+        home_hor_rec = view.findViewById(R.id.home_hor_rec);
+        home_ver_rec = view.findViewById(R.id.home_ver_rec);
+
+        categoryRepo = new CategoryRepo();
+        _cate = new ArrayList<>();
+
+        restaurantRepo = new RestaurantRepo();
+        _res = new ArrayList<>();
+
+        setHor(view);
+        setVer(view);
     }
 
-    @Override
-    public void onItemClick(HomeVerModel item) {
-        // Navigate to ChooseTableFragment
-        ChooseTableFragment chooseTableFragment = new ChooseTableFragment();
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.frameLayout, chooseTableFragment)
-                .addToBackStack(null)
-                .commit();
+    private void setHor(View view){
+        GridLayoutManager gridLayoutManagerHor = new GridLayoutManager(view.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
+        home_hor_rec.setLayoutManager(gridLayoutManagerHor);
+        categoryAdapter = new CategoryAdapter(_cate);
+
+        home_hor_rec.setAdapter(categoryAdapter);
+
+        loadDataHor();
+
+        categoryAdapter.setOnClickListener(new CategoryAdapter.OnClickListener() {
+            @Override
+            public void onClick(String cate_id) {
+                List<Restaurant> _newRes;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    _newRes = _res.stream()
+                            .filter(re -> re.getCate_id().equals(cate_id) && re.isActive())
+                            .collect(Collectors.toList());
+                } else {
+                    _newRes = new ArrayList<>();
+                    for (Restaurant re : _res) {
+                        if (re.getCate_id().equals(cate_id) && re.isActive()) {
+                            _newRes.add(re);
+                        }
+                    }
+                }
+
+                restaurantAdapter.updateData(_newRes);
+            }
+        });
     }
+
+    private void loadDataHor(){
+        categoryRepo.GetAll(new BaseRepo.OnDataFetchedListener<List<Category>>() {
+            @Override
+            public void onDataFetched(List<Category> cates) {
+                _cate.addAll(cates);
+
+                categoryAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void setVer(View view){
+        GridLayoutManager gridLayoutManagerVer = new GridLayoutManager(view.getContext(), 1, GridLayoutManager.VERTICAL, false);
+        home_ver_rec.setLayoutManager(gridLayoutManagerVer);
+        restaurantAdapter = new RestaurantAdapter(_res);
+
+        home_ver_rec.setAdapter(restaurantAdapter);
+
+        loadDataVer();
+
+        restaurantAdapter.setOnClickListener(new RestaurantAdapter.OnClickListener() {
+            @Override
+            public void onClick(String res_id) {
+                FragmentManagerHelper.getInstance().replaceFragment(TableFragment.newInstance(res_id), true);
+            }
+        });
+    }
+
+    private void loadDataVer(){
+        restaurantRepo.GetAll(new BaseRepo.OnDataFetchedListener<List<Restaurant>>() {
+            @Override
+            public void onDataFetched(List<Restaurant> res) {
+                _res.addAll(res);
+
+                restaurantAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
 }

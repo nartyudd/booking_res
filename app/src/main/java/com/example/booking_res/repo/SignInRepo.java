@@ -25,31 +25,6 @@ public class SignInRepo extends BaseRepo{
         this.coRef = db.collection("user");
     }
 
-    public void getAll(OnDataFetchedListener listener){
-        coRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<UserViewModel> users = new ArrayList<>();
-
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                UserViewModel user = document.toObject(UserViewModel.class);
-                                Log.d(TAG, "User: " + user.toString());
-                                users.add(user);
-                            }
-
-                            Log.d(TAG, "Total users fetched: " + users.size());
-                            listener.onDataFetched(users);
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-
-
     public void getRole(String userId, OnDataFetchedListener listener){
         Query query = coRef.whereEqualTo("userId", userId);
         query.get()

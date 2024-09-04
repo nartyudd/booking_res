@@ -45,6 +45,7 @@ public class ListTableParentAdapter extends RecyclerView.Adapter<ListTableParent
         holder.titleParent.setText(region.getName());
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(holder.childRecyclerView.getContext(), 1, GridLayoutManager.VERTICAL, false);
+
         if (holder.childRecyclerView.getLayoutManager() == null) {
             holder.childRecyclerView.setLayoutManager(gridLayoutManager);
         }
