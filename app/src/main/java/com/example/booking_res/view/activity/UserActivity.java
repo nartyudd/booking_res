@@ -55,7 +55,7 @@ public class UserActivity extends AppCompatActivity {
 
     private void initFragment(){
         FragmentManagerHelper.getInstance().init(getSupportFragmentManager(), R.id.frameLayout);
-        FragmentManagerHelper.getInstance().addFragment(new HomeFragment(), false);
+        FragmentManagerHelper.getInstance().replaceFragment(new HomeFragment(), false);
     }
 
 

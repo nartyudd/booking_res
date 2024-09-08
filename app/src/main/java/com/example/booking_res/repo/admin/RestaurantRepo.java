@@ -1,5 +1,6 @@
 package com.example.booking_res.repo.admin;
 
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -66,6 +67,12 @@ public class RestaurantRepo extends BaseRepo {
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         res.add(document.toObject(Restaurant.class));
+                    }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        res.forEach(r -> {
+                            Log.i(TAG, r.getName() + " " + r.getAddress());
+                        });
                     }
 
                     listener.onDataFetched(res);
