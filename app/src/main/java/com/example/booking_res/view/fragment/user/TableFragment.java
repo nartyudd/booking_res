@@ -85,7 +85,11 @@ public class TableFragment extends Fragment {
         tableParentAdapter.SetOnClicckListener(new TableParentAdapter.OnClickListener() {
             @Override
             public void onClick(String table_id) {
-                Toast.makeText(getActivity(), "table_id : " + table_id, Toast.LENGTH_SHORT).show();
+                InvoiceFragment invoiceFragment = InvoiceFragment.newInstance(table_id);
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.tvInvoice, invoiceFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

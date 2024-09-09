@@ -31,8 +31,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:fontFamily="cursive"
+            android:fontFamily="@font/lobster"
             android:text="Hãy chọn loại nhà hàng bạn muốn trải nghiệm !"
             android:textColor="@color/black"
             android:textSize="16dp"
