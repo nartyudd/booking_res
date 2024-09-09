@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
 import com.example.booking_res.model.Region;
 import com.example.booking_res.repo.BaseRepo;
@@ -85,13 +86,10 @@ public class TableFragment extends Fragment {
         tableParentAdapter.SetOnClicckListener(new TableParentAdapter.OnClickListener() {
             @Override
             public void onClick(String table_id) {
-                InvoiceFragment invoiceFragment = InvoiceFragment.newInstance(table_id);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.tvInvoice, invoiceFragment)
-                        .addToBackStack(null)
-                        .commit();
+                FragmentManagerHelper.getInstance().replaceFragment(InvoiceFragment.newInstance(table_id), false);
             }
         });
+
     }
 
     private void loadData(){

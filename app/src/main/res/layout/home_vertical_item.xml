@@ -11,7 +11,7 @@
     app:cardElevation="6dp">
 
     <RelativeLayout
-        android:layout_width="724dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/brown"
         android:padding="12dp">
@@ -28,9 +28,8 @@
             android:scaleType="fitXY"
             android:src="@drawable/res_img" />
 
-        <!-- Text container for details -->
         <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/ver_img">
@@ -74,7 +73,14 @@
 
         </RelativeLayout>
 
-        <!-- Overlay for additional information -->
+        <TextView
+            android:id="@+id/cmt"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/ver_img"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Comment"
+            android:textSize="10dp"/>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

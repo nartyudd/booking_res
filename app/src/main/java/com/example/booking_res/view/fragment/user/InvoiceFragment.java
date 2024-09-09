@@ -7,14 +7,19 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
 
 public class InvoiceFragment extends Fragment {
 
     private static final String ARG_TABLE_ID = "table_id";
+    private static final String ARG_TABLE_NAME = "table_name";
     private String table_id;
+    private String table_name;
 
     public InvoiceFragment() {
         // Required empty public constructor
@@ -41,19 +46,24 @@ public class InvoiceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_invoice, container, false);
 
-        TextView tvInvoice = view.findViewById(R.id.tvInvoice);
-
+        TextView tvInvoiceItems = view.findViewById(R.id.tvInvoiceItems);
+        Button btnPay = view.findViewById(R.id.btnPay);
         // Hardcode dữ liệu hóa đơn cho table_id
-        String invoiceDetails = "Invoice for Table: " + table_id + "\n\n";
-        invoiceDetails += "1. Item 1 - $10\n";
-        invoiceDetails += "2. Item 2 - $15\n";
-        invoiceDetails += "3. Item 3 - $8\n";
+        String invoiceDetails = "Loại bàn: Bàn đôi\n";
+        invoiceDetails += "khách hàng: user@gmail.com \n";
+        invoiceDetails += "Khu vực: Tầng 1 \n";
+        invoiceDetails += "Số lượng: 1 \n";
         invoiceDetails += "----------------\n";
-        invoiceDetails += "Total: $33";
+        invoiceDetails += "Tổng tiền: 800.000 VND";
 
-        // Hiển thị dữ liệu hóa đơn lên TextView
-        tvInvoice.setText(invoiceDetails);
+        tvInvoiceItems.setText(invoiceDetails);
+
+        btnPay.setOnClickListener(v -> {
+            FragmentManagerHelper.getInstance().replaceFragment(QRCodeFragment.newQR(), false);
+            Toast.makeText(getActivity(), "Thanh toán thành công. Cảm ơn quý khách!", Toast.LENGTH_SHORT).show();
+        });
 
         return view;
     }
+
 }

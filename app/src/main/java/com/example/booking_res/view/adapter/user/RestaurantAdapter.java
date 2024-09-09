@@ -11,8 +11,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.booking_res.Helper.FragmentManagerHelper;
 import com.example.booking_res.R;
 import com.example.booking_res.model.Restaurant;
+import com.example.booking_res.view.fragment.user.CommentFragment;
 
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Re
     @Override
     public RestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_vertical_item, parent, false);
+        TextView cmt = view.findViewById(R.id.cmt);
+        cmt.setOnClickListener(v -> {
+            FragmentManagerHelper.getInstance().replaceFragment(CommentFragment.newInstance(), false);
+        });
         return new RestaurantAdapter.RestaurantViewHolder(view);
     }
 
